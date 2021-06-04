@@ -1,13 +1,17 @@
 import React from 'react'
 import Layout from './Layout'
+import '../css/layout.css'
 import NoteManager from './NoteManager'
+
 
 function Dashboard() {
     return (
-        <div>
+        <React.Fragment>
             <Layout />
-            <NoteManager />
-        </div>
+            <div className="main-container">
+                <NoteManager />
+            </div>
+        </React.Fragment>
     )
 }
 
