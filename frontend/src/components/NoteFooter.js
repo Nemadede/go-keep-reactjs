@@ -14,8 +14,12 @@ function NoteFooter({ deleteNote, note, children }) {
                     <li>
                         <span onClick={(e) => deleteNote(e, note)}>delete</span>
                     </li>
-                    {children}
+
                 </ul>
+                <div className="close">
+                    {children}
+                </div>
+
             </div>
 
         </React.Fragment>

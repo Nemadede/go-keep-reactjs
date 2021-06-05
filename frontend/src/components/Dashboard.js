@@ -1,7 +1,10 @@
 import React from 'react'
 import Layout from './Layout'
-import '../css/layout.css'
 import NoteManager from './NoteManager'
+import '../css/layout.css'
+import '../css/note.scss'
+
+
 
 
 function Dashboard() {

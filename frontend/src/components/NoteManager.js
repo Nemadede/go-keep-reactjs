@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Note from './Note'
 import NoteFooter from './NoteFooter'
 
@@ -8,6 +8,10 @@ function NoteManager() {
 
     const [count, setCount] = useState(1)
     const [noteList, setNoteList] = useState([])
+    const [textareaHeight, setTextareaHeight] = useState(0)
+    const [displayClsName, setDisplayClsName] = useState('active')
+    const [createClsName, setCreateClsName] = useState('')
+
     const [action, setAction] = useState({
         type: "create",
         currentNode: {}
@@ -26,7 +30,9 @@ function NoteManager() {
         if (action.type === "create") {
             setCount(prevCount => prevCount + 1)
             note.id = count
-            setNoteList(prevList => [...prevList, note])
+            if (note.body !== "" || note.title !== "")
+                setNoteList(prevList => [note, ...prevList])
+
         } else {
             if (action.type === "update") {
                 const index = noteList.indexOf(action.currentNode)
@@ -45,6 +51,8 @@ function NoteManager() {
 
 
         console.log(note)
+        setDisplayClsName("active")
+        setCreateClsName("")
         setNote({ title: '', body: '' })
 
     }
@@ -84,44 +92,72 @@ function NoteManager() {
             type: "update",
             currentNode: currentNote
         })
+        setDisplayClsName(" ")
+        setCreateClsName("active pop-up")
 
         setNote({ title: currentNote.title, body: currentNote.body })
 
     }
 
+    const heigtHandler = (e) => {
+        // console.log(e.target.id);
+
+
+    }
+
+    const handleFormSwitch = () => {
+        setCreateClsName('active')
+        setDisplayClsName('')
+    }
+
+    useEffect(() => {
+        const elem = document.getElementById('#textarea')
+        console.log(elem);
+    }, [])
 
     return (
-        <div>
+        <React.Fragment>
+            <div className='note-manager'>
 
-            <div>
-                <form>
-                    <div>
-                        <input placeholder='Take a note' />
-                    </div>
-                </form>
-                <form onSubmit={submitNotes}>
-                    <div>
-                        <input type="text" name="title" placeholder='Title' value={note.title}
-                            onChange={(e) => setNote({ ...note, title: e.target.value })}
-                        />
-                    </div>
-                    <div>
-                        <textarea placeholder='Take a note' name="body" value={note.body}
-                            onChange={(e) => setNote({ ...note, body: e.target.value })} ></textarea>
+                <div className='note-forms'>
+
+                    <div className={`input-display-form ${displayClsName}`}>
+                        <input placeholder='Take a note' onFocus={handleFormSwitch} />
+                        <span>list</span>
+                        <span>draw</span>
+                        <span>photo</span>
                     </div>
 
-                    <NoteFooter deleteNote={updateDeleteNote}>
-                        <button type="submit">close</button>
-                    </NoteFooter>
-                </form>
+                    <form onSubmit={submitNotes} className={`create-note-form ${createClsName}`}>
+                        <div className="title">
+                            <input type="text" name="title" placeholder='Title' value={note.title}
+                                onChange={(e) => setNote({ ...note, title: e.target.value })}
+                            />
+                            <span>pin</span>
+                        </div>
+                        <div className="body">
+                            <textarea placeholder='Take a note' name="body" value={note.body}
+                                onChange={(e) => setNote({ ...note, body: e.target.value })}
+                                onKeyUp={(e) => heigtHandler(e)}
+                                id="textarea"
+                            ></textarea>
+                        </div>
+
+                        <NoteFooter deleteNote={updateDeleteNote}>
+                            <button type="submit">close</button>
+                        </NoteFooter>
+                    </form>
+                </div>
+
+
+
             </div>
 
-            <div>
+            <div className="notes">
                 {noteList.map(n => <Note note={n} updateNote={handleUpdate} deleteNote={previewDeleteNote} key={note.id} />)}
 
             </div>
-
-        </div>
+        </React.Fragment>
     )
 }
 

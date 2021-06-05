@@ -127,8 +127,7 @@
 }
 
 .side-nav .nav ul li{
-    list-style-type: none;
-    padding: 18px 0px 18px 40px;
+    padding: 16px 0px 16px 40px;
     cursor: pointer;
     display: block;
     /* background-color: pink; */
@@ -160,10 +159,13 @@
 
 
 .main-container{
-    position: absolute;
+    position: fixed;
+    /* position:relative; */
     min-width:80% ;
+    min-height: 300px;
     right: 0;
     left: 280px;
-    background-color: purple;
+    /* background-color: purple; */
+    /* background-color: red; */
 
 }
