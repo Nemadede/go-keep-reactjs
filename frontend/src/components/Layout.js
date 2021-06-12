@@ -1,6 +1,7 @@
 import React from 'react'
 import keepImg from '../assets/349px-Google_Keep_icon_(2020).svg.png'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch, faRedo, faCog } from '@fortawesome/free-solid-svg-icons'
 
 
 function Layout() {
@@ -19,15 +20,17 @@ function Layout() {
                 </div>
                 <div className="header-item search-bar">
                     <div id="search">
-                        <span>icon</span>
-                        <input type="search" placeholder="search" />
+                        <span><FontAwesomeIcon icon={faSearch}></FontAwesomeIcon></span>
+                        <input type="search" placeholder="Search" />
                     </div>
                 </div>
 
                 <div className="header-item right-menu1">
-                    <span>reload</span>
+                    <span><FontAwesomeIcon icon={faRedo}></FontAwesomeIcon></span>
                     <span>view</span>
-                    <span>settings</span>
+                    <span>
+                        <FontAwesomeIcon icon={faCog} />
+                    </span>
                 </div>
                 <div className="header-item right-menu2">
                     <span id="g-menu">menu</span>

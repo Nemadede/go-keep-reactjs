@@ -1,16 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import Note from './Note'
 import NoteFooter from './NoteFooter'
 
-
-
 function NoteManager() {
+    const initialInputHeight = 36
 
     const [count, setCount] = useState(1)
     const [noteList, setNoteList] = useState([])
-    const [textareaHeight, setTextareaHeight] = useState(0)
+    const [textareaHeight, setTextareaHeight] = useState(initialInputHeight)
     const [displayClsName, setDisplayClsName] = useState('active')
     const [createClsName, setCreateClsName] = useState('')
+    const [popUp, setPopUp] = useState("")
+    const [inputHeight, setIputHeight] = useState(initialInputHeight)
+
+
+    const wrapperRef = useRef(null)
+    const textAreaRef = useRef(null)
 
     const [action, setAction] = useState({
         type: "create",
@@ -23,16 +28,17 @@ function NoteManager() {
         id: 0,
     })
 
-    const submitNotes = (e) => {
 
-        e.preventDefault();
+
+    const submitNotes = useCallback(() => {
 
         if (action.type === "create") {
-            setCount(prevCount => prevCount + 1)
-            note.id = count
-            if (note.body !== "" || note.title !== "")
-                setNoteList(prevList => [note, ...prevList])
 
+            if (note.body !== "" || note.title !== "") {
+                setCount(prevCount => prevCount + 1)
+                note.id = count
+                setNoteList(prevList => [note, ...prevList])
+            }
         } else {
             if (action.type === "update") {
                 const index = noteList.indexOf(action.currentNode)
@@ -53,9 +59,11 @@ function NoteManager() {
         console.log(note)
         setDisplayClsName("active")
         setCreateClsName("")
+        setPopUp("")
         setNote({ title: '', body: '' })
 
-    }
+    }, [note])
+
 
     const deleteNote = (presentNote) => {
 
@@ -92,34 +100,73 @@ function NoteManager() {
             type: "update",
             currentNode: currentNote
         })
-        setDisplayClsName(" ")
-        setCreateClsName("active pop-up")
+        setDisplayClsName("active")
+        setCreateClsName("active")
+        setPopUp("pop-up")
 
         setNote({ title: currentNote.title, body: currentNote.body })
-
-    }
-
-    const heigtHandler = (e) => {
-        // console.log(e.target.id);
-
 
     }
 
     const handleFormSwitch = () => {
         setCreateClsName('active')
         setDisplayClsName('')
+
+    }
+
+    const handleTitleInput = (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault()
+            setIputHeight(prevHeight => prevHeight + initialInputHeight)
+
+            event.target.style.minHeight = inputHeight;
+            console.log(event.target.style.minHeight)
+
+
+        }
+    }
+    const handleBodyInput = (event) => {
+        if (event.key === "enter") {
+            console.log("about to make h body")
+            console.log(event);
+
+        }
     }
 
     useEffect(() => {
-        const elem = document.getElementById('#textarea')
-        console.log(elem);
-    }, [])
+        function handleClickOutside(event) {
+            if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+                console.log(event);
+                if (event.target.className === "note" || event.target.parentNode.className === "note") {
+                    console.log(event.target.className)
+
+                    setPopUp("")
+
+                    return
+                }
+
+                submitNotes()
+            }
+        }
+
+
+        document.addEventListener("mousedown", handleClickOutside)
+
+        if (setCreateClsName === "active")
+            textAreaRef.current.focus()
+        console.log(textAreaRef);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside)
+        }
+    }, [wrapperRef, submitNotes])
+
 
     return (
         <React.Fragment>
+
             <div className='note-manager'>
 
-                <div className='note-forms'>
+                <div className='note-forms' >
 
                     <div className={`input-display-form ${displayClsName}`}>
                         <input placeholder='Take a note' onFocus={handleFormSwitch} />
@@ -128,35 +175,49 @@ function NoteManager() {
                         <span>photo</span>
                     </div>
 
-                    <form onSubmit={submitNotes} className={`create-note-form ${createClsName}`}>
-                        <div className="title">
-                            <input type="text" name="title" placeholder='Title' value={note.title}
-                                onChange={(e) => setNote({ ...note, title: e.target.value })}
-                            />
-                            <span>pin</span>
-                        </div>
-                        <div className="body">
-                            <textarea placeholder='Take a note' name="body" value={note.body}
-                                onChange={(e) => setNote({ ...note, body: e.target.value })}
-                                onKeyUp={(e) => heigtHandler(e)}
-                                id="textarea"
-                            ></textarea>
-                        </div>
+                    <div className={`${popUp}`}>
 
-                        <NoteFooter deleteNote={updateDeleteNote}>
-                            <button type="submit">close</button>
-                        </NoteFooter>
-                    </form>
+                        <form onSubmit={(e) => {
+                            e.preventDefault()
+                            submitNotes()
+                        }} className={`create-note-form ${createClsName}`} ref={wrapperRef}>
+                            <div className="title">
+                                <input type="text" name="title" placeholder='Title' value={note.title}
+                                    onChange={(e) => setNote({ ...note, title: e.target.value })}
+                                    onKeyPress={handleTitleInput}
+                                />
+                                <span>pin</span>
+                            </div>
+                            <div className="body">
+                                <textarea placeholder='Take a note' name="body" value={note.body}
+                                    onChange={(e) => setNote({ ...note, body: e.target.value })}
+                                    onKeyPress={handleBodyInput}
+                                    id="textarea"
+
+                                    ref={textAreaRef}
+                                    wrap="virtual"
+                                ></textarea>
+                            </div>
+
+                            <NoteFooter deleteNote={updateDeleteNote}>
+                                <button type="submit">close</button>
+                            </NoteFooter>
+                        </form>
+                    </div>
                 </div>
 
 
 
             </div>
 
+
             <div className="notes">
                 {noteList.map(n => <Note note={n} updateNote={handleUpdate} deleteNote={previewDeleteNote} key={note.id} />)}
 
             </div>
+
+
+
         </React.Fragment>
     )
 }

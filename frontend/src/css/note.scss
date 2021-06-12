@@ -7,12 +7,12 @@ input:focus {
 }
 
 
+
 .note-manager {
     text-align: center;
     width: 80%;
     position: relative;
-
-
+    margin: auto;
 }
 
 .note-manager .note-forms {
@@ -70,6 +70,7 @@ input:focus {
         border: 1px solid #00000024;
         box-shadow: -1px 1px 6px #51464652;
         border-radius: 10px;
+        background-color: #fff;
 
         &.active {
             display: block;
@@ -90,6 +91,7 @@ input:focus {
                 border-top-left-radius: 10px;
                 border-bottom-left-radius: 10px;
                 font-size: 16px;
+                min-height: 36px;
             }
 
             span {
@@ -124,6 +126,7 @@ input:focus {
     display: flex;
     justify-content: space-between;
     padding: 0px 0px 10px 23px;
+    // background-color: #fff;
 
     ul {
         list-style-type: none;
@@ -149,13 +152,30 @@ input:focus {
     }
 }
 
+.pop-up {
+    background-color: rgba(170, 170, 170, 0.5);
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+
+    .create-note-form {
+        // margin: 300px auto;
+        transform: translate(4%, 150%);
+    }
+}
+
 .notes {
     position: relative;
     bottom: 0;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    margin: 20px;
+    margin: 20px auto;
     padding: 30px 40px;
+    width: 80%;
+    justify-content: baseline;
 
     .note {
         margin: 0px 10px 10px 0px;
@@ -170,7 +190,10 @@ input:focus {
             padding-bottom: 10px;
         }
 
-        .note-body {}
+        .note-body {
+            text-align: justify;
+            word-spacing: 1px;
+        }
 
         .note-footer {
             display: none;
