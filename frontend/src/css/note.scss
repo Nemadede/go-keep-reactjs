@@ -13,6 +13,8 @@ input:focus {
     width: 80%;
     position: relative;
     margin: auto;
+
+    transition: all 10s ease-in-out 2s;
 }
 
 .note-manager .note-forms {
@@ -23,27 +25,23 @@ input:focus {
     position: static;
 
     .input-display-form {
-        width: 580px;
+        width: 600px;
         margin: 20px auto;
         border: 1px solid #00000024;
-        text-align: left;
         display: none;
         border-radius: 10px;
         box-shadow: -1px 1px 6px #51464652;
-        // position: absolute;
         top: 0;
         left: 0;
         right: 0;
 
-        // transform: translate(30%, 50%);
-
         &.active {
             display: flex;
+            align-items: center;
         }
 
         * {
             display: inline-block;
-            padding: 10px;
         }
 
         input {
@@ -56,16 +54,23 @@ input:focus {
         }
 
         span {
-            text-align: right;
+            padding: 10px 15px 10px 10px;
+            margin-right: 5px;
+        }
+
+        span svg {
+            font-size: 20px;
+            color: rgba(0, 0, 0, 0.7);
         }
     }
 
     .create-note-form {
         display: none;
+        visibility: hidden;
         // top: 0;
         z-index: 10;
         // transform: translate(50%, 40%);
-        width: 580px;
+        width: 600px;
         margin: 20px auto;
         border: 1px solid #00000024;
         box-shadow: -1px 1px 6px #51464652;
@@ -75,6 +80,7 @@ input:focus {
         &.active {
             display: block;
             // position: static;
+            visibility: visible;
 
         }
 
@@ -96,7 +102,7 @@ input:focus {
 
             span {
                 text-align: right;
-                padding: 10px;
+                padding: 10px 20px;
             }
         }
 
@@ -109,7 +115,7 @@ input:focus {
                 padding: 10px 0px 10px 23px;
                 overflow: hidden;
                 resize: none;
-                height: 30px;
+                min-height: 70px;
 
                 &:focus {
                     outline: none;
@@ -125,7 +131,7 @@ input:focus {
 .note-footer {
     display: flex;
     justify-content: space-between;
-    padding: 0px 0px 10px 23px;
+    padding: 0px 23px 10px 23px;
     // background-color: #fff;
 
     ul {
@@ -133,9 +139,20 @@ input:focus {
         display: flex;
 
         li {
-            padding: 5px 10px 2px 0px;
+            padding: 5px 15px 2px 0px;
             cursor: pointer;
             display: block;
+            margin-right: 15px;
+            color: rgba(0, 0, 0, 0.6);
+
+            svg {
+                font-size: 13px;
+                color: rgba(0, 0, 0, 0.7);
+            }
+
+            &:last-child {
+                text-decoration: underline;
+            }
         }
     }
 
@@ -148,6 +165,11 @@ input:focus {
             font-size: 16px;
             font-weight: 400;
             text-transform: capitalize;
+            cursor: pointer;
+
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.1);
+            }
         }
     }
 }
@@ -175,14 +197,17 @@ input:focus {
     margin: 20px auto;
     padding: 30px 40px;
     width: 80%;
-    justify-content: baseline;
+    min-height: 100px;
+    transition: visibility 10s ease-in 2s;
 
     .note {
         margin: 0px 10px 10px 0px;
         border-radius: 10px;
         border: 1px solid #e0e0e0;
-        max-width: 300px;
+        width: 250px;
         padding: 10px;
+        visibility: visible;
+
 
         h4 {
 
@@ -193,10 +218,17 @@ input:focus {
         .note-body {
             text-align: justify;
             word-spacing: 1px;
+            word-wrap: break-word;
+            min-height: 60px;
+            background: black repeat-x scroll center top transparent;
         }
 
         .note-footer {
             display: none;
+        }
+
+        &.not-visible {
+            visibility: hidden;
         }
 
         &:hover~.note-footer {

@@ -2,12 +2,21 @@ import React, { useState, useRef, useEffect, useCallback } from 'react'
 import Note from './Note'
 import NoteFooter from './NoteFooter'
 
+import {
+    faThumbtack,
+    faPaintBrush,
+    faCheckSquare
+
+} from '@fortawesome/free-solid-svg-icons'
+import { faImage } from '@fortawesome/free-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+
 function NoteManager() {
     const initialInputHeight = 36
 
     const [count, setCount] = useState(1)
     const [noteList, setNoteList] = useState([])
-    const [textareaHeight, setTextareaHeight] = useState(initialInputHeight)
     const [displayClsName, setDisplayClsName] = useState('active')
     const [createClsName, setCreateClsName] = useState('')
     const [popUp, setPopUp] = useState("")
@@ -48,10 +57,6 @@ function NoteManager() {
                     prevList[index] = note
                     return [...prevList]
                 })
-                console.log(action.currentNode)
-                console.log(index);
-            } else {
-                console.log("delete");
             }
         }
 
@@ -62,12 +67,10 @@ function NoteManager() {
         setPopUp("")
         setNote({ title: '', body: '' })
 
-    }, [note])
+    }, [note, setCount])
 
 
     const deleteNote = (presentNote) => {
-
-        console.log(presentNote);
 
         const index = noteList.indexOf(presentNote)
         setNoteList(prevList => {
@@ -83,6 +86,9 @@ function NoteManager() {
             currentNode: {}
         })
 
+        setPopUp("")
+        setCreateClsName("")
+
     }
 
     const previewDeleteNote = (e, node) => {
@@ -90,9 +96,12 @@ function NoteManager() {
         e.stopPropagation();
 
         deleteNote(node)
+
+
     }
     const updateDeleteNote = () => {
         deleteNote(action.currentNode)
+        setPopUp("")
     }
 
     const handleUpdate = (e, currentNote) => {
@@ -120,15 +129,13 @@ function NoteManager() {
             setIputHeight(prevHeight => prevHeight + initialInputHeight)
 
             event.target.style.minHeight = inputHeight;
-            console.log(event.target.style.minHeight)
 
 
         }
     }
     const handleBodyInput = (event) => {
         if (event.key === "enter") {
-            console.log("about to make h body")
-            console.log(event);
+            console.log();
 
         }
     }
@@ -136,9 +143,7 @@ function NoteManager() {
     useEffect(() => {
         function handleClickOutside(event) {
             if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-                console.log(event);
                 if (event.target.className === "note" || event.target.parentNode.className === "note") {
-                    console.log(event.target.className)
 
                     setPopUp("")
 
@@ -154,11 +159,10 @@ function NoteManager() {
 
         if (setCreateClsName === "active")
             textAreaRef.current.focus()
-        console.log(textAreaRef);
         return () => {
             document.removeEventListener("mousedown", handleClickOutside)
         }
-    }, [wrapperRef, submitNotes])
+    }, [note, wrapperRef, submitNotes])
 
 
     return (
@@ -170,9 +174,15 @@ function NoteManager() {
 
                     <div className={`input-display-form ${displayClsName}`}>
                         <input placeholder='Take a note' onFocus={handleFormSwitch} />
-                        <span>list</span>
-                        <span>draw</span>
-                        <span>photo</span>
+                        <span>
+                            <FontAwesomeIcon icon={faCheckSquare} />
+                        </span>
+                        <span>
+                            <FontAwesomeIcon icon={faPaintBrush} />
+                        </span>
+                        <span>
+                            <FontAwesomeIcon icon={faImage} />
+                        </span>
                     </div>
 
                     <div className={`${popUp}`}>
@@ -186,7 +196,9 @@ function NoteManager() {
                                     onChange={(e) => setNote({ ...note, title: e.target.value })}
                                     onKeyPress={handleTitleInput}
                                 />
-                                <span>pin</span>
+                                <span>
+                                    <FontAwesomeIcon icon={faThumbtack} />
+                                </span>
                             </div>
                             <div className="body">
                                 <textarea placeholder='Take a note' name="body" value={note.body}

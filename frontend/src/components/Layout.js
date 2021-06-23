@@ -1,7 +1,17 @@
 import React from 'react'
 import keepImg from '../assets/349px-Google_Keep_icon_(2020).svg.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch, faRedo, faCog } from '@fortawesome/free-solid-svg-icons'
+import {
+    faSearch,
+    faRedo,
+    faCog,
+    faEllipsisV,
+    faPen, faInbox,
+    faUserPlus,
+    faPallet,
+
+} from '@fortawesome/free-solid-svg-icons'
+import { faLightbulb, faBell, faTrashAlt, faImage } from '@fortawesome/free-regular-svg-icons'
 
 
 function Layout() {
@@ -27,13 +37,20 @@ function Layout() {
 
                 <div className="header-item right-menu1">
                     <span><FontAwesomeIcon icon={faRedo}></FontAwesomeIcon></span>
-                    <span>view</span>
+                    <span className="menu">
+                        <span></span>
+                        <span></span>
+                    </span>
                     <span>
                         <FontAwesomeIcon icon={faCog} />
                     </span>
                 </div>
                 <div className="header-item right-menu2">
-                    <span id="g-menu">menu</span>
+                    <span id="g-menu">
+                        <FontAwesomeIcon icon={faEllipsisV} />
+                        <FontAwesomeIcon icon={faEllipsisV} />
+                        <FontAwesomeIcon icon={faEllipsisV} />
+                    </span>
                     <span id="g-account">n</span>
                 </div>
             </div>
@@ -41,11 +58,26 @@ function Layout() {
                 <div className="side-nav">
                     <nav className="nav">
                         <ul>
-                            <li className="active">Notes</li>
-                            <li>Reminders</li>
-                            <li>Edit Labels</li>
-                            <li>Archive</li>
-                            <li>Trash</li>
+                            <li className="active">
+                                <FontAwesomeIcon icon={faLightbulb} />
+                                Notes</li>
+                            <li>
+                                <FontAwesomeIcon icon={faBell} />
+
+                                Reminders</li>
+                            <li>
+                                <FontAwesomeIcon icon={faPen} />
+
+                                Edit Labels</li>
+                            <li>
+                                <FontAwesomeIcon icon={faInbox} />
+
+                                Archive</li>
+                            <li>
+                                <FontAwesomeIcon icon={faTrashAlt} />
+
+
+                                Trash</li>
                         </ul>
                     </nav>
                     <h2>Open-source licenses</h2>

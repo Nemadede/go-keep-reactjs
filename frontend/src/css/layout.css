@@ -2,11 +2,11 @@
     border: 1px solid rgb(161 161 161 / 30%);
     display: flex;
     align-items: center;
-    padding: 10px;
+    padding: 5px;
 }
 
 .header .header-item{
-    margin: 0px 20px;
+    margin: 0px 17px;
 }
 
 .header .head-sidenav-menu{
@@ -34,8 +34,8 @@
 }
 
 .header .icon-container img{
-    width: 30px;
-    height: 40px;
+    width: 27px;
+    height: 37px;
 }
 
 .header .icon-container span{
@@ -64,7 +64,7 @@
 .header .search-bar #search{
     border: 1px solid transparent;
     width: 80%;
-    border-radius: 7px;
+    border-radius: 11px;
     background-color: #f1f3f4;
     /* box-shadow: 1px 1px #00000030; */
 
@@ -72,7 +72,7 @@
 .header .search-bar #search input{
     width: 90%;
     border: 1px solid transparent;
-    padding: 15px;
+    padding: 12px;
     font-size: 16px;
     background-color: transparent;
 }
@@ -82,7 +82,7 @@
 }
 
 .header .search-bar #search span svg{
-    color:rgba(156, 155, 155, 0.589);
+    color:rgba(0, 0, 0, 0.6);
     /* width: 100px; */
     font-size: 17px;
 }
@@ -112,6 +112,28 @@
 }
 
 .header .right-menu1 span svg{
+    font-size: 18px;
+    color: rgba(68, 68, 68, 0.589);
+}
+
+.header .right-menu1 span.menu{
+    display: block;
+}
+
+.header .right-menu1 span.menu span{
+    display: block;
+    width: 23px;
+    height: 7px;
+    border: 2px solid rgba(68, 68, 68, 0.589);
+    margin-left:auto;
+    margin-right: auto;
+    border-radius: 1px;
+}
+.header .right-menu1 span.menu span:first-child{
+    margin-bottom: 2px;
+}
+
+.header .right-menu2 #g-menu svg{
     font-size: 18px;
     color: rgba(68, 68, 68, 0.589);
 }
@@ -153,12 +175,17 @@
 }
 
 .side-nav .nav ul li{
-    padding: 16px 0px 16px 40px;
+    padding: 12px 0px 14px 40px;
     cursor: pointer;
     display: block;
     /* background-color: pink; */
 }
-
+.side-nav .nav ul li svg{
+    font-size: 20px;
+    margin-right: 40px;
+    color: rgba(0, 0, 0, 0.6);
+    
+}
 .side-nav .nav ul li:hover{
     background-color: rgba(255, 192, 203, 0.267);
     /* border:  solid transparent; */
@@ -190,4 +217,5 @@
     min-height: 300px;
     right: 0;
     left: 280px;
+    overflow-y: scroll;
 }
